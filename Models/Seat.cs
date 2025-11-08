@@ -1,0 +1,19 @@
+﻿using AtlasAir.Enums;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AtlasAir.Models
+{
+    public class Seat
+    {
+        [Key]
+        public int Id { get; set; }
+        public int AircraftId { get; set; }
+        public string SeatNumber { get; set; } = string.Empty;
+        public SeatClass Class { get; set; }
+
+        [ForeignKey("AircraftId")]
+        public Aircraft Aircraft { get; set; } = new();
+        public ICollection<Reservation> Reservations { get; set; } = [];
+    }
+}

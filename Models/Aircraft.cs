@@ -1,0 +1,15 @@
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AtlasAir.Models
+{
+    public class Aircraft
+    {
+        [Key]
+        public int Id { get; set; }
+        public string Model { get; set; } = string.Empty;
+        public int SeatCount { get; set; }
+        
+        public ICollection<Seat> Seats { get; set; } = [];
+    }
+}
