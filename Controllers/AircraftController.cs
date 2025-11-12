@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using AtlasAir.Data;
-using AtlasAir.Models;
+﻿using AtlasAir.Enums;
 using AtlasAir.Interfaces;
+using AtlasAir.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AtlasAir.Controllers
 {
-    public class AircraftController(IAircraftRepository aircraftRepository) : Controller
+    public class AircraftController(IAircraftRepository aircraftRepository, ISeatRepository seatRepository) : Controller
     {
         public async Task<IActionResult> Index()
         {
@@ -45,6 +39,19 @@ namespace AtlasAir.Controllers
             if (ModelState.IsValid)
             {
                 await aircraftRepository.CreateAsync(aircraft);
+
+                for (int i = 0; i < aircraft.SeatCount; i++)
+                {
+                    var seat = new Seat
+                    {
+                        AircraftId = aircraft.Id,
+                        SeatNumber = GenerateSeatNumber(i),
+                        Class = DetermineSeatClass(i, aircraft.SeatCount)
+                    };
+
+                    await seatRepository.CreateAsync(seat);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(aircraft);
@@ -107,6 +114,26 @@ namespace AtlasAir.Controllers
             }
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+        private static string GenerateSeatNumber(int index)
+        {
+            int row = (index / 6) + 1;
+            char letter = (char)('A' + (index % 6));
+            return $"{row}{letter}";
+        }
+
+        private static SeatClass DetermineSeatClass(int index, int totalSeats)
+        {
+            double percentage = (double)index / totalSeats;
+
+            if (percentage < 0.2)
+                return SeatClass.FirstClass;
+            else if (percentage < 0.5)
+                return SeatClass.Business;
+            else
+                return SeatClass.Economy;
         }
     }
 }

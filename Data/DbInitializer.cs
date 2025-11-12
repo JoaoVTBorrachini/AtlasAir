@@ -10,7 +10,7 @@ namespace AtlasAir.Data
         {
             context.Database.EnsureDeleted();
             context.Database.Migrate();
-            /*
+            
             if (context.Airports.Any())
             {
                 return; 
@@ -176,7 +176,7 @@ namespace AtlasAir.Data
 
             context.Reservations.AddRange(reservation1, reservation2);
             context.SaveChanges();
-            */
+            
         }
     }
 }

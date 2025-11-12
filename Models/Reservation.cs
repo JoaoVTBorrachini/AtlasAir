@@ -17,12 +17,12 @@ namespace AtlasAir.Models
         public DateTime? CancellationDate { get; set; }
         
         [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; } = new();
+        public Customer Customer { get; set; } = null!;
 
         [ForeignKey("SeatId")]
-        public Seat Seat { get; set; } = new();
+        public Seat Seat { get; set; } = null!;
 
         [ForeignKey("FlightId")]
-        public Flight Flight { get; set; } = new();
+        public Flight Flight { get; set; } = null!;
     }
 }

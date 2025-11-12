@@ -13,7 +13,7 @@ namespace AtlasAir.Models
         public SeatClass Class { get; set; }
 
         [ForeignKey("AircraftId")]
-        public Aircraft Aircraft { get; set; } = new();
+        public Aircraft Aircraft { get; set; } = null!;
         public ICollection<Reservation> Reservations { get; set; } = [];
     }
 }

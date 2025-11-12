@@ -30,9 +30,9 @@ namespace AtlasAir.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewData["CustomerId"] = new SelectList(await customerRepository.GetAllAsync(), "Id", "Id");
-            ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "Id");
-            ViewData["SeatId"] = new SelectList(await seatRepository.GetAllAsync(), "Id", "Id");
+            ViewData["CustomerId"] = new SelectList(await customerRepository.GetAllAsync(), "Id", "Id", null);
+            ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "Id", null);
+            ViewData["SeatId"] = new SelectList(await seatRepository.GetAllAsync(), "Id", "Id", null);
             return View();
         }
 

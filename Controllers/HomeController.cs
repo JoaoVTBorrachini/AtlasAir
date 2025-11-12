@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using AtlasAir.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AtlasAir.Controllers

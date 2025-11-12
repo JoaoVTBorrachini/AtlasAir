@@ -18,9 +18,9 @@ namespace AtlasAir.Models
         public FlightStatus Status { get; set; }
 
         [ForeignKey("OriginAirportId")]
-        public Airport OriginAirport { get; set; } = new();
+        public Airport OriginAirport { get; set; } = null!;
         [ForeignKey("DestinationAirportId")]
-        public Airport DestinationAirport { get; set; } = new();
+        public Airport DestinationAirport { get; set; } = null!;
 
         public ICollection<FlightSegment> FlightSegments { get; set; } = [];
         public ICollection<Reservation> Reservations { get; set; } = [];
