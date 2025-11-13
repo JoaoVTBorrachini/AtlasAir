@@ -1,71 +1,75 @@
 ﻿@model IEnumerable<AtlasAir.Models.FlightSegment>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Conexões";
 }
 
-<h1>Index</h1>
+<h1>Lista de Conexões</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Adicionar Conexão</a>
+</div>
+
+<table class="table table-striped table-hover">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SegmentOrder)
+                Ordem
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DepartureTime)
+                Hora da Partida
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ArrivalTime)
+                Hora da Chegada
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Flight)
+                Voo
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Aircraft)
+                Aeronave
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OriginAirport)
+                Aeroporto de Origem
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DestinationAirport)
+                Aeroporto de Destino
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.SegmentOrder)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DepartureTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArrivalTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flight.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Aircraft.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OriginAirport.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DestinationAirport.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SegmentOrder)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartureTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flight.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aircraft.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OriginAirport.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DestinationAirport.Id)
+                </td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary">Editar</a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info">Detalhes</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger">Excluir</a>
+                    </div>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

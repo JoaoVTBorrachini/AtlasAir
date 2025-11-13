@@ -1,60 +1,59 @@
 ﻿@model AtlasAir.Models.FlightSegment
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes da Conexão";
 }
 
-<h1>Details</h1>
+<h1>Detalhes da Conexão</h1>
 
 <div>
-    <h4>FlightSegment</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SegmentOrder)
+        <dt class="col-sm-2">
+            Ordem
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.SegmentOrder)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DepartureTime)
+        <dt class="col-sm-2">
+            Hora da Partida
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DepartureTime)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ArrivalTime)
+        <dt class="col-sm-2">
+            Hora da Chegada
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.ArrivalTime)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Flight)
+        <dt class="col-sm-2">
+            Voo
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Flight.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Aircraft)
+        <dt class="col-sm-2">
+            Aeronave
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Aircraft.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OriginAirport)
+        <dt class="col-sm-2">
+            Aeroporto de Origem
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.OriginAirport.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DestinationAirport)
+        <dt class="col-sm-2">
+            Aeroporto de Destino
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DestinationAirport.Id)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Editar</a>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar para a Lista</a>
 </div>

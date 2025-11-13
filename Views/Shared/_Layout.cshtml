@@ -20,9 +20,6 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Aircraft" asp-action="Index">Aeronaves</a>
                         </li>
                         <li class="nav-item">
@@ -32,13 +29,13 @@
                             <a class="nav-link" asp-area="" asp-controller="Customer" asp-action="Index">Clientes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Flight" asp-action="Index">Voos</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="FlightSegment" asp-action="Index">Conexões</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Reservation" asp-action="Index">Reservas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Flight" asp-action="Index">Voos</a>
                         </li>
                     </ul>
                 </div>
@@ -46,13 +43,13 @@
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container main-container">
         <main role="main" class="pb-3 content-wrapper">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer bg-primary text-white mt-4 pt-3 pb-3">
+    <footer class="border-top bg-primary text-white mt-4 pt-3 pb-3">
         <div class="container">
             &copy; 2025 - AtlasAir - <a class="text-white-50" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

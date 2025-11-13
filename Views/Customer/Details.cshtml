@@ -1,36 +1,35 @@
 ﻿@model AtlasAir.Models.Customer
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Cliente";
 }
 
-<h1>Details</h1>
+<h1>Detalhes do Cliente</h1>
 
 <div>
-    <h4>Customer</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+        <dt class="col-sm-2">
+            Nome
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Phone)
+        <dt class="col-sm-2">
+            Telefone
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Phone)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsSpecialCustomer)
+        <dt class="col-sm-2">
+            Cliente Especial?
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsSpecialCustomer)
+        <dd class="col-sm-10">
+            @(Model.IsSpecialCustomer ? "Sim" : "Não")
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-secondary">Editar</a>
+    <a asp-action="Index" class="btn btn-outline-secondary ms-2">Voltar para a Lista</a>
 </div>
