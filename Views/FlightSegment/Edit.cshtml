@@ -15,13 +15,15 @@
 
             <div class="mb-3">
                 <label asp-for="FlightId" class="control-label">Voo</label>
-                <select asp-for="FlightId" class="form-control" asp-items="ViewBag.FlightId"></select>
-                <span asp-validation-for="FlightId" class="text-danger"></span>
+                <select asp-for="FlightId" class="form-control" asp-items="ViewBag.FlightId">
+                    <option value="">-- Selecione o voo</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="AircraftId" class="control-label">Aeronave</label>
-                <select asp-for="AircraftId" class="form-control" asp-items="ViewBag.AircraftId"></select>
-                <span asp-validation-for="AircraftId" class="text-danger"></span>
+                <select asp-for="AircraftId" class="form-control" asp-items="ViewBag.AircraftId">
+                    <option value="">-- Selecione a aeronave</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="SegmentOrder" class="control-label">Ordem do Segmento</label>
@@ -30,13 +32,15 @@
             </div>
             <div class="mb-3">
                 <label asp-for="OriginAirportId" class="control-label">Aeroporto de Origem</label>
-                <select asp-for="OriginAirportId" class="form-control" asp-items="ViewBag.OriginAirportId"></select>
-                <span asp-validation-for="OriginAirportId" class="text-danger"></span>
+                <select asp-for="OriginAirportId" class="form-control" asp-items="ViewBag.OriginAirportId">
+                    <option value="">-- Selecione a origem</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="DestinationAirportId" class="control-label">Aeroporto de Destino</label>
-                <select asp-for="DestinationAirportId" class="form-control" asp-items="ViewBag.DestinationAirportId"></select>
-                <span asp-validation-for="DestinationAirportId" class="text-danger"></span>
+                <select asp-for="DestinationAirportId" class="form-control" asp-items="ViewBag.DestinationAirportId">
+                    <option value="">-- Selecione o destino</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="DepartureTime" class="control-label">Hora da Partida</label>

@@ -21,12 +21,22 @@ namespace AtlasAir.Repositories
 
         public async Task<List<FlightSegment>?> GetAllAsync()
         {
-            return await context.FlightSegments.ToListAsync();
+            return await context.FlightSegments
+                .Include(fs => fs.Flight)
+                .Include(fs => fs.Aircraft)
+                .Include(fs => fs.OriginAirport)
+                .Include(fs => fs.DestinationAirport)
+                .ToListAsync();
         }
 
         public async Task<FlightSegment?> GetByIdAsync(int id)
         {
-            return await context.FlightSegments.FindAsync(id);
+            return await context.FlightSegments
+                .Include(fs => fs.Flight)
+                .Include(fs => fs.Aircraft)
+                .Include(fs => fs.OriginAirport)
+                .Include(fs => fs.DestinationAirport)
+                .FirstOrDefaultAsync(fs => fs.Id == id);
         }
 
         public async Task UpdateAsync(FlightSegment flightSegment)

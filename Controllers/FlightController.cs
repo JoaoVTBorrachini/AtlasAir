@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using AtlasAir.Models;
+﻿using AtlasAir.Enums;
+using AtlasAir.Helpers;
 using AtlasAir.Interfaces;
+using AtlasAir.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AtlasAir.Controllers
 {
@@ -15,15 +18,12 @@ namespace AtlasAir.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var flight = await flightRepository.GetByIdAsync(id.Value);
+
             if (flight == null)
-            {
                 return NotFound();
-            }
 
             return View(flight);
         }
@@ -32,11 +32,12 @@ namespace AtlasAir.Controllers
         {
             ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id");
             ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id");
+
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,FlightNumber,OriginAirportId,DestinationAirportId,ScheduledDeparture,ActualDeparture,ScheduledArrival,ActualArrival,Status")] Flight flight)
+        public async Task<IActionResult> Create(Flight flight)
         {
             if (ModelState.IsValid)
             {
@@ -46,6 +47,8 @@ namespace AtlasAir.Controllers
 
             ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.DestinationAirportId);
             ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.OriginAirportId);
+            ViewData["StatusOptions"] = new SelectList(Enum.GetValues(typeof(FlightStatus)));
+
             return View(flight);
         }
 
@@ -64,11 +67,21 @@ namespace AtlasAir.Controllers
 
             ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.DestinationAirportId);
             ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.OriginAirportId);
+
+            var statusValues = Enum.GetValues(typeof(FlightStatus)).Cast<FlightStatus>();
+            var statusOptions = statusValues.Select(s => new SelectListItem
+            {
+                Text = s.GetDisplayName(),
+                Value = s.ToString()
+            });
+
+            ViewData["StatusOptions"] = new SelectList(statusOptions, "Value", "Text");
+
             return View(flight);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FlightNumber,OriginAirportId,DestinationAirportId,ScheduledDeparture,ActualDeparture,ScheduledArrival,ActualArrival,Status")] Flight flight)
+        public async Task<IActionResult> Edit(int id, Flight flight)
         {
             if (id != flight.Id)
             {
@@ -83,6 +96,16 @@ namespace AtlasAir.Controllers
 
             ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.DestinationAirportId);
             ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.OriginAirportId);
+
+            var statusValues = Enum.GetValues(typeof(FlightStatus)).Cast<FlightStatus>();
+            var statusOptions = statusValues.Select(s => new SelectListItem
+            {
+                Text = s.GetDisplayName(),
+                Value = s.ToString()
+            });
+
+            ViewData["StatusOptions"] = new SelectList(statusOptions, "Value", "Text");
+
             return View(flight);
         }
 
@@ -106,9 +129,18 @@ namespace AtlasAir.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var flight = await flightRepository.GetByIdAsync(id);
-            if (flight != null)
+            if (flight == null)
+            {
+                return NotFound();
+            }
+
+            try
             {
                 await flightRepository.DeleteAsync(flight);
+            }
+            catch (DbUpdateException)
+            {
+                TempData["ErrorMessage"] = "Não foi possível excluir, pois existem dados relacionados.";
             }
 
             return RedirectToAction(nameof(Index));

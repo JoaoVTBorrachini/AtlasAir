@@ -38,3 +38,28 @@ body {
     .footer a:hover {
         color: #d4d4d4;
     }
+
+
+.alert-timer-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    animation: timer-bar-slide 3s linear forwards;
+}
+
+@keyframes timer-bar-slide {
+    from {
+        width: 100%;
+    }
+
+    to {
+        width: 0%;
+    }
+}
+
+#autoCloseAlert:hover .alert-timer-bar {
+    animation-play-state: paused;
+}

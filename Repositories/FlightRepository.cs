@@ -21,12 +21,34 @@ namespace AtlasAir.Repositories
 
         public async Task<List<Flight>?> GetAllAsync()
         {
-            return await context.Flights.ToListAsync();
+            return await context.Flights
+                .Include(f => f.OriginAirport)
+                .Include(f => f.DestinationAirport)
+                .Include(f => f.FlightSegments)
+                    .ThenInclude(fs => fs.OriginAirport)
+                .Include(f => f.FlightSegments)
+                    .ThenInclude(fs => fs.DestinationAirport)
+                .ToListAsync();
         }
 
         public async Task<Flight?> GetByIdAsync(int id)
         {
-            return await context.Flights.FindAsync(id);
+            return await context.Flights
+                .Include(f => f.OriginAirport)
+                .Include(f => f.DestinationAirport)
+                .Include(f => f.FlightSegments)
+                    .ThenInclude(fs => fs.OriginAirport)
+                .Include(f => f.FlightSegments)
+                    .ThenInclude(fs => fs.DestinationAirport)
+                .FirstOrDefaultAsync(f => f.Id == id);
+
+        }
+
+        public async Task<List<Flight>?> GetFlightsByRouteAsync(int originAirportId, int destinationAirportId)
+        {
+            return await context.Flights
+                .Where(f => f.OriginAirportId == originAirportId && f.DestinationAirportId == destinationAirportId)
+                .ToListAsync();
         }
 
         public async Task UpdateAsync(Flight flight)

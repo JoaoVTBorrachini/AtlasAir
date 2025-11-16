@@ -41,7 +41,7 @@
             </div>
             <div class="mb-3">
                 <label asp-for="Status" class="control-label">Status da reserva</label>
-                <select asp-for="Status" class="form-control"></select>
+                <select asp-for="Status" class="form-control" asp-items="ViewBag.StatusOptions"></select>
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
 

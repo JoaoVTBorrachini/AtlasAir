@@ -9,5 +9,6 @@ namespace AtlasAir.Interfaces
         Task<List<Seat>?> GetAllAsync();
         Task UpdateAsync(Seat seat);
         Task DeleteAsync(Seat seat);
+        Task<List<Seat>?> GetAvailableSeatsByFlightIdAsync(int flightId);
     }
 }

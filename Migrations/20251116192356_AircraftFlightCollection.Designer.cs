@@ -4,6 +4,7 @@ using AtlasAir.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtlasAir.Migrations
 {
     [DbContext(typeof(AtlasAirDbContext))]
-    partial class AtlasAirDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251116192356_AircraftFlightCollection")]
+    partial class AircraftFlightCollection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,6 +130,10 @@ namespace AtlasAir.Migrations
                     b.Property<int>("DestinationAirportId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FlightNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OriginAirportId")
                         .HasColumnType("int");
 
@@ -136,11 +143,8 @@ namespace AtlasAir.Migrations
                     b.Property<DateTime>("ScheduledDeparture")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Scheduled");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -236,11 +240,8 @@ namespace AtlasAir.Migrations
                     b.Property<int?>("SeatId1")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("WaitingPayment");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -273,9 +274,8 @@ namespace AtlasAir.Migrations
                     b.Property<int?>("AircraftId1")
                         .HasColumnType("int");
 
-                    b.Property<string>("Class")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Class")
+                        .HasColumnType("int");
 
                     b.Property<string>("SeatNumber")
                         .IsRequired()

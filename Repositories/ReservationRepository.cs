@@ -21,12 +21,26 @@ namespace AtlasAir.Repositories
 
         public async Task<List<Reservation>?> GetAllAsync()
         {
-            return await context.Reservations.ToListAsync();
+            return await context.Reservations
+                .Include(r => r.Customer)
+                .Include(r => r.Flight)
+                    .ThenInclude(f => f.OriginAirport)
+                .Include(r => r.Flight)
+                    .ThenInclude(f => f.DestinationAirport)
+                .Include(r => r.Seat)
+                .ToListAsync();
         }
 
         public async Task<Reservation?> GetByIdAsync(int id)
         {
-            return await context.Reservations.FindAsync(id);
+            return await context.Reservations
+                .Include(r => r.Customer)
+                .Include(r => r.Flight)
+                    .ThenInclude(f => f.OriginAirport)
+                .Include(r => r.Flight)
+                    .ThenInclude(f => f.DestinationAirport)
+                .Include(r => r.Seat)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task UpdateAsync(Reservation reservation)

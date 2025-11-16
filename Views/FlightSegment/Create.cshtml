@@ -14,11 +14,15 @@
 
             <div class="mb-3">
                 <label asp-for="FlightId" class="control-label">Voo</label>
-                <select asp-for="FlightId" class="form-control" asp-items="ViewBag.FlightId"></select>
+                <select asp-for="FlightId" class="form-control" asp-items="ViewBag.FlightId">
+                    <option value="">-- Selecione o voo</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="AircraftId" class="control-label">Aeronave</label>
-                <select asp-for="AircraftId" class="form-control" asp-items="ViewBag.AircraftId"></select>
+                <select asp-for="AircraftId" class="form-control" asp-items="ViewBag.AircraftId">
+                    <option value="">-- Selecione a aeronave</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="SegmentOrder" class="control-label">Ordem do Segmento</label>
@@ -27,11 +31,15 @@
             </div>
             <div class="mb-3">
                 <label asp-for="OriginAirportId" class="control-label">Aeroporto de Origem</label>
-                <select asp-for="OriginAirportId" class="form-control" asp-items="ViewBag.OriginAirportId"></select>
+                <select asp-for="OriginAirportId" class="form-control" asp-items="ViewBag.OriginAirportId">
+                    <option value="">-- Selecione a origem</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="DestinationAirportId" class="control-label">Aeroporto de Destino</label>
-                <select asp-for="DestinationAirportId" class="form-control" asp-items="ViewBag.DestinationAirportId"></select>
+                <select asp-for="DestinationAirportId" class="form-control" asp-items="ViewBag.DestinationAirportId">
+                    <option value="">-- Selecione o destino</option>
+                </select>
             </div>
             <div class="mb-3">
                 <label asp-for="DepartureTime" class="control-label">Hora da Partida</label>

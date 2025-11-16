@@ -2,6 +2,8 @@
 using AtlasAir.Interfaces;
 using AtlasAir.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace AtlasAir.Controllers
 {
@@ -34,7 +36,7 @@ namespace AtlasAir.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,Model,SeatCount")] Aircraft aircraft)
+        public async Task<IActionResult> Create(Aircraft aircraft)
         {
             if (ModelState.IsValid)
             {
@@ -73,7 +75,7 @@ namespace AtlasAir.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Model,SeatCount")] Aircraft aircraft)
+        public async Task<IActionResult> Edit(int id, Aircraft aircraft)
         {
             if (id != aircraft.Id)
             {
@@ -108,9 +110,19 @@ namespace AtlasAir.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var aircraft = await aircraftRepository.GetByIdAsync(id);
-            if (aircraft != null)
+
+            if (aircraft == null)
+            {
+                return NotFound();
+            }
+            
+            try
             {
                 await aircraftRepository.DeleteAsync(aircraft);
+            }
+            catch (DbUpdateException)
+            {
+                TempData["ErrorMessage"] = "Não foi possível excluir, pois existem dados relacionados.";
             }
 
             return RedirectToAction(nameof(Index));

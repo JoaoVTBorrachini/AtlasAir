@@ -55,13 +55,13 @@ namespace AtlasAir.Data
             var boeing737 = new Aircraft
             {
                 Model = "Boeing 737-800",
-                SeatCount = 6
+                SeatCount = 66
             };
 
             var a320 = new Aircraft
             {
                 Model = "Airbus A320",
-                SeatCount = 6
+                SeatCount = 62
             };
 
             context.Aircrafts.AddRange(boeing737, a320);
@@ -108,7 +108,6 @@ namespace AtlasAir.Data
 
             var flight1 = new Flight
             {
-                FlightNumber = "AT100",
                 OriginAirportId = gru.Id,
                 DestinationAirportId = jfk.Id,
                 ScheduledDeparture = DateTime.UtcNow.AddDays(2).AddHours(6),
@@ -118,7 +117,6 @@ namespace AtlasAir.Data
 
             var flight2 = new Flight
             {
-                FlightNumber = "AT200",
                 OriginAirportId = gig.Id,
                 DestinationAirportId = gru.Id,
                 ScheduledDeparture = DateTime.UtcNow.AddDays(1).AddHours(9),

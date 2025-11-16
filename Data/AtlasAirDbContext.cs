@@ -1,4 +1,5 @@
-﻿using AtlasAir.Models;
+﻿using AtlasAir.Enums;
+using AtlasAir.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace AtlasAir.Data
@@ -24,6 +25,11 @@ namespace AtlasAir.Data
             modelBuilder.Entity<Customer>().ToTable("Customer");
             
             modelBuilder.Entity<Flight>().ToTable("Flight");
+
+            modelBuilder.Entity<Flight>()
+                .Property(f => f.Status)
+                .HasConversion<string>()
+                .HasDefaultValue(FlightStatus.Scheduled);
 
             modelBuilder.Entity<Flight>()
                 .HasOne(f => f.OriginAirport)
@@ -64,6 +70,11 @@ namespace AtlasAir.Data
             modelBuilder.Entity<Reservation>().ToTable("Reservation");
 
             modelBuilder.Entity<Reservation>()
+                .Property(r => r.Status)
+                .HasConversion<string>()
+                .HasDefaultValue(ReservationStatus.Pending);
+
+            modelBuilder.Entity<Reservation>()
                 .HasOne(b => b.Customer)
                 .WithMany()
                 .HasForeignKey(b => b.CustomerId);
@@ -79,6 +90,10 @@ namespace AtlasAir.Data
                 .HasForeignKey(b => b.FlightId);
 
             modelBuilder.Entity<Seat>().ToTable("Seat");
+
+            modelBuilder.Entity<Seat>()
+                .Property(s => s.Class)
+                .HasConversion<string>();
 
             modelBuilder.Entity<Seat>()
                 .HasOne(s => s.Aircraft)

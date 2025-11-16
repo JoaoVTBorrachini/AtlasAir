@@ -8,7 +8,6 @@ namespace AtlasAir.Models
     {
         [Key]
         public int Id { get; set; }
-        public string FlightNumber { get; set; } = string.Empty;
         public int OriginAirportId { get; set; }
         public int DestinationAirportId { get; set; }
         public DateTime ScheduledDeparture { get; set; }
@@ -18,9 +17,9 @@ namespace AtlasAir.Models
         public FlightStatus Status { get; set; }
 
         [ForeignKey("OriginAirportId")]
-        public Airport OriginAirport { get; set; } = null!;
+        public Airport? OriginAirport { get; set; }
         [ForeignKey("DestinationAirportId")]
-        public Airport DestinationAirport { get; set; } = null!;
+        public Airport? DestinationAirport { get; set; }
 
         public ICollection<FlightSegment> FlightSegments { get; set; } = [];
         public ICollection<Reservation> Reservations { get; set; } = [];

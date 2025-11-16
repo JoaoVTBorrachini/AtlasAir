@@ -14,14 +14,14 @@ namespace AtlasAir.Models
         public int DestinationAirportId { get; set; }
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
-        
+
         [ForeignKey("FlightId")]
-        public Flight Flight { get; set; } = null!;
+        public Flight? Flight { get; set; }
         [ForeignKey("AircraftId")]
-        public Aircraft Aircraft { get; set; } = null!;
+        public Aircraft? Aircraft { get; set; }
         [ForeignKey("OriginAirportId")]
-        public Airport OriginAirport { get; set; } = null!;
+        public Airport? OriginAirport { get; set; }
         [ForeignKey("DestinationAirportId")]
-        public Airport DestinationAirport { get; set; } = null!;
+        public Airport? DestinationAirport { get; set; }
     }
 }

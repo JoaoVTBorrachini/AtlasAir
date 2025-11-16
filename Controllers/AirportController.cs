@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AtlasAir.Interfaces;
 using AtlasAir.Models;
-using AtlasAir.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace AtlasAir.Controllers
 {
@@ -33,7 +34,7 @@ namespace AtlasAir.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,Name,Street,Neighborhood,City,State,Country,ZipCode")] Airport airport)
+        public async Task<IActionResult> Create(Airport airport)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +60,7 @@ namespace AtlasAir.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Street,Neighborhood,City,State,Country,ZipCode")] Airport airport)
+        public async Task<IActionResult> Edit(int id, Airport airport)
         {
             if (id != airport.Id)
             {
@@ -69,7 +70,7 @@ namespace AtlasAir.Controllers
             if (ModelState.IsValid)
             {
                 await airportRepository.UpdateAsync(airport);
-                
+
                 return RedirectToAction(nameof(Index));
             }
             return View(airport);
@@ -95,11 +96,20 @@ namespace AtlasAir.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var airport = await airportRepository.GetByIdAsync(id);
-            if (airport != null)
+            if (airport == null)
+            {
+                return NotFound();
+            }
+
+            try
             {
                 await airportRepository.DeleteAsync(airport);
             }
-
+            catch (DbUpdateException)
+            {
+                TempData["ErrorMessage"] = "Não foi possível excluir, pois existem dados relacionados.";
+            }
+            
             return RedirectToAction(nameof(Index));
         }
     }

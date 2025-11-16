@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using AtlasAir.Models;
+﻿using AtlasAir.Enums;
+using AtlasAir.Helpers;
 using AtlasAir.Interfaces;
+using AtlasAir.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace AtlasAir.Controllers
 {
@@ -38,7 +41,7 @@ namespace AtlasAir.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Id,FlightId,AircraftId,SegmentOrder,OriginAirportId,DestinationAirportId,DepartureTime,ArrivalTime")] FlightSegment flightSegment)
+        public async Task<IActionResult> Create(FlightSegment flightSegment)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +77,7 @@ namespace AtlasAir.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FlightId,AircraftId,SegmentOrder,OriginAirportId,DestinationAirportId,DepartureTime,ArrivalTime")] FlightSegment flightSegment)
+        public async Task<IActionResult> Edit(int id, FlightSegment flightSegment)
         {
             if (id != flightSegment.Id)
             {
@@ -91,6 +94,16 @@ namespace AtlasAir.Controllers
             ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flightSegment.DestinationAirportId);
             ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "Id", flightSegment.FlightId);
             ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flightSegment.OriginAirportId);
+
+            var statusValues = Enum.GetValues(typeof(FlightStatus)).Cast<FlightStatus>();
+            var statusOptions = statusValues.Select(s => new SelectListItem
+            {
+                Text = s.GetDisplayName(),
+                Value = s.ToString()
+            });
+
+            ViewData["StatusOptions"] = new SelectList(statusOptions, "Value", "Text");
+
             return View(flightSegment);
         }
 
@@ -114,9 +127,18 @@ namespace AtlasAir.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var flightSegment = await flightSegmentRepository.GetByIdAsync(id);
-            if (flightSegment != null)
+            if (flightSegment == null)
+            {
+                return NotFound(); ;
+            }
+
+            try
             {
                 await flightSegmentRepository.DeleteAsync(flightSegment);
+            }
+            catch (DbUpdateException)
+            {
+                TempData["ErrorMessage"] = "Não foi possível excluir, pois existem dados relacionados.";
             }
 
             return RedirectToAction(nameof(Index));

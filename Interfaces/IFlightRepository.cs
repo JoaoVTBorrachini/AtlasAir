@@ -9,5 +9,6 @@ namespace AtlasAir.Interfaces
         Task<List<Flight>?> GetAllAsync();
         Task UpdateAsync(Flight flight);
         Task DeleteAsync(Flight flight);
+        Task<List<Flight>?> GetFlightsByRouteAsync(int originAirportId, int destinationAirportId);
     }
 }

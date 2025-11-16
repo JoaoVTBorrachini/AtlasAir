@@ -1,4 +1,21 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.addEventListener("DOMContentLoaded", function () {
+    var autoCloseAlert = document.getElementById("autoCloseAlert");
 
-// Write your JavaScript code.
+    if (autoCloseAlert) {
+        var alertTime = 3000; 
+        var timeLeft = alertTime;
+        var intervalTime = 100; 
+
+        var interval = setInterval(function () {
+            if (!autoCloseAlert.matches(':hover')) {
+                timeLeft -= intervalTime;
+            }
+
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                var bsAlert = new bootstrap.Alert(autoCloseAlert);
+                bsAlert.close();
+            }
+        }, intervalTime);
+    }
+});

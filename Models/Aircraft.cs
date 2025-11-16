@@ -11,5 +11,6 @@ namespace AtlasAir.Models
         public int SeatCount { get; set; }
         
         public ICollection<Seat> Seats { get; set; } = [];
+        public ICollection<Flight> Flights { get; set; } = [];
     }
 }

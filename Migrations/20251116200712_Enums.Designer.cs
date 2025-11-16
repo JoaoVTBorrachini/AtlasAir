@@ -4,6 +4,7 @@ using AtlasAir.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtlasAir.Migrations
 {
     [DbContext(typeof(AtlasAirDbContext))]
-    partial class AtlasAirDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251116200712_Enums")]
+    partial class Enums
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,6 +130,10 @@ namespace AtlasAir.Migrations
                     b.Property<int>("DestinationAirportId")
                         .HasColumnType("int");
 
+                    b.Property<string>("FlightNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OriginAirportId")
                         .HasColumnType("int");
 
@@ -138,9 +145,7 @@ namespace AtlasAir.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("Scheduled");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -238,9 +243,7 @@ namespace AtlasAir.Migrations
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("WaitingPayment");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
