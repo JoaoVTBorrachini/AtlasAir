@@ -33,10 +33,10 @@ namespace AtlasAir.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewData["AircraftId"] = new SelectList(await aircraftRepository.GetAllAsync(), "Id", "Id");
-            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id");
+            ViewData["AircraftId"] = new SelectList(await aircraftRepository.GetAllAsync(), "Id", "Model");
+            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name");
+            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name");
             ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "Id");
-            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id");
             return View();
         }
 
@@ -49,10 +49,10 @@ namespace AtlasAir.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AircraftId"] = new SelectList(await aircraftRepository.GetAllAsync(), "Id", "Id", flightSegment.AircraftId);
-            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flightSegment.DestinationAirportId);
+            ViewData["AircraftId"] = new SelectList(await aircraftRepository.GetAllAsync(), "Id", "Model", flightSegment.AircraftId);
+            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flightSegment.OriginAirportId);
+            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flightSegment.DestinationAirportId);
             ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "Id", flightSegment.FlightId);
-            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flightSegment.OriginAirportId);
             return View(flightSegment);
         }
 
@@ -69,10 +69,10 @@ namespace AtlasAir.Controllers
                 return NotFound();
             }
 
-            ViewData["AircraftId"] = new SelectList(await aircraftRepository.GetAllAsync(), "Id", "Id", flightSegment.AircraftId);
-            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flightSegment.DestinationAirportId);
+            ViewData["AircraftId"] = new SelectList(await aircraftRepository.GetAllAsync(), "Id", "Model", flightSegment.AircraftId);
+            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flightSegment.OriginAirportId);
+            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flightSegment.DestinationAirportId);
             ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "Id", flightSegment.FlightId);
-            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flightSegment.OriginAirportId);
             return View(flightSegment);
         }
 
@@ -90,10 +90,10 @@ namespace AtlasAir.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["AircraftId"] = new SelectList(await aircraftRepository.GetAllAsync(), "Id", "Id", flightSegment.AircraftId);
-            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flightSegment.DestinationAirportId);
+            ViewData["AircraftId"] = new SelectList(await aircraftRepository.GetAllAsync(), "Id", "Model", flightSegment.AircraftId);
+            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flightSegment.OriginAirportId);
+            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flightSegment.DestinationAirportId);
             ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "Id", flightSegment.FlightId);
-            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flightSegment.OriginAirportId);
 
             var statusValues = Enum.GetValues(typeof(FlightStatus)).Cast<FlightStatus>();
             var statusOptions = statusValues.Select(s => new SelectListItem

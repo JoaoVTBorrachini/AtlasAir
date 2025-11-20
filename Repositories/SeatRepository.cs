@@ -27,8 +27,8 @@ namespace AtlasAir.Repositories
         public async Task<List<Seat>?> GetAvailableSeatsByFlightIdAsync(int flightId)
         {
             return await context.Seats
-                .Where(s => s.Aircraft.Flights.Any(f => f.Id == flightId) &&
-                            !s.Reservations.Any(r => r.FlightId == flightId))
+                .Where(s => s.Aircraft.FlightSegments.Any(fs => fs.FlightId == flightId) &&
+                            !context.Reservations.Any(r => r.FlightId == flightId && r.SeatId == s.Id))
                 .ToListAsync();
         }
 

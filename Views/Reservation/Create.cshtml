@@ -115,14 +115,18 @@
 
                 if (!originId || !destinationId) {
                     searchError.text("Selecione uma origem e um destino.");
+                    resultsContainer.show();
                     return;
                 }
 
                 btnBuscarText.addClass("d-none");
                 btnBuscarSpinner.removeClass("d-none");
-                resultsContainer.slideUp();
                 resultsTableBody.empty();
                 searchError.empty();
+                detailsContainer.hide();
+                hiddenFlightId.val('');
+                seatSelect.empty().append('<option value="">Selecione um voo primeiro</option>').prop("disabled", true);
+                btnSalvar.prop("disabled", true);
 
                 $.ajax({
                     url: "@Url.Action("GetAvailableFlights")",
@@ -147,13 +151,14 @@
                                 resultsTableBody.append(row);
                             });
                             resultsContainer.slideDown();
-                            detailsContainer.slideDown();
                         } else {
                             searchError.text("Nenhum voo encontrado para esta rota.");
+                            resultsContainer.slideDown();
                         }
                     },
                     error: function() {
                         searchError.text("Erro ao buscar voos.");
+                        resultsContainer.slideDown();
                     },
                     complete: function() {
                         btnBuscarText.removeClass("d-none");
@@ -172,6 +177,8 @@
 
                 seatSelect.empty().append('<option>Buscando assentos...</option>').prop("disabled", true);
                 btnSalvar.prop("disabled", true);
+
+                detailsContainer.slideDown();
 
                 $.ajax({
                     url: "@Url.Action("GetAvailableSeats")",

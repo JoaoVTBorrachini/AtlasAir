@@ -5,6 +5,8 @@ namespace AtlasAir.ViewModels
 {
     public class ReservationViewModel
     {
+        [Display(Name = "ID")]
+        public int? ReservationId { get; set; }
 
         [Display(Name = "Aeroporto de Origem")]
         [Required(ErrorMessage = "Selecione um aeroporto de origem.")]

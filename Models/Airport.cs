@@ -14,5 +14,4 @@ namespace AtlasAir.Models
         public string Country { get; set; } = string.Empty;
         public string ZipCode { get; set; } = string.Empty;
     }
-
 }

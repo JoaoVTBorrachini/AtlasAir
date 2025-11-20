@@ -40,8 +40,10 @@ namespace AtlasAir.Repositories
                     .ThenInclude(fs => fs.OriginAirport)
                 .Include(f => f.FlightSegments)
                     .ThenInclude(fs => fs.DestinationAirport)
+                .Include(f => f.FlightSegments)
+                    .ThenInclude(fs => fs.Aircraft)
+                .AsSplitQuery()
                 .FirstOrDefaultAsync(f => f.Id == id);
-
         }
 
         public async Task<List<Flight>?> GetFlightsByRouteAsync(int originAirportId, int destinationAirportId)

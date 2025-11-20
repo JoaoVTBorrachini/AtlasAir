@@ -30,8 +30,8 @@ namespace AtlasAir.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id");
-            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id");
+            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name");
+            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name");
 
             return View();
         }
@@ -45,8 +45,8 @@ namespace AtlasAir.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.DestinationAirportId);
-            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.OriginAirportId);
+            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flight.DestinationAirportId);
+            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flight.OriginAirportId);
             ViewData["StatusOptions"] = new SelectList(Enum.GetValues(typeof(FlightStatus)));
 
             return View(flight);
@@ -65,8 +65,8 @@ namespace AtlasAir.Controllers
                 return NotFound();
             }
 
-            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.DestinationAirportId);
-            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.OriginAirportId);
+            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flight.DestinationAirportId);
+            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flight.OriginAirportId);
 
             var statusValues = Enum.GetValues(typeof(FlightStatus)).Cast<FlightStatus>();
             var statusOptions = statusValues.Select(s => new SelectListItem
@@ -94,8 +94,8 @@ namespace AtlasAir.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.DestinationAirportId);
-            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Id", flight.OriginAirportId);
+            ViewData["DestinationAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flight.DestinationAirportId);
+            ViewData["OriginAirportId"] = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name", flight.OriginAirportId);
 
             var statusValues = Enum.GetValues(typeof(FlightStatus)).Cast<FlightStatus>();
             var statusOptions = statusValues.Select(s => new SelectListItem

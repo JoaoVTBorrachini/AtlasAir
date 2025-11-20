@@ -108,31 +108,59 @@ namespace AtlasAir.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
+
             var reservation = await reservationRepository.GetByIdAsync(id.Value);
             if (reservation == null) return NotFound();
 
-            ViewData["CustomerId"] = new SelectList(await customerRepository.GetAllAsync(), "Id", "Name", reservation.CustomerId);
-            ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "FlightNumber", reservation.FlightId);
-            ViewData["SeatId"] = new SelectList(await seatRepository.GetAllAsync(), "Id", "SeatNumber", reservation.SeatId);
-            return View(reservation);
+            // Buscar o voo para pegar origem e destino
+            var flight = await flightRepository.GetByIdAsync(reservation.FlightId);
+            if (flight == null) return NotFound();
+
+            var viewModel = new ReservationViewModel
+            {
+                ReservationId = reservation.Id,
+                ReservationCode = reservation.ReservationCode,
+                SelectedCustomerId = reservation.CustomerId,
+                SelectedFlightId = reservation.FlightId,
+                SelectedSeatId = reservation.SeatId,
+                SelectedOriginAirportId = flight.OriginAirportId,
+                SelectedDestinationAirportId = flight.DestinationAirportId,
+
+                // Popular as listas
+                CustomerList = new SelectList(await customerRepository.GetAllAsync(), "Id", "Name"),
+                AirportList = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name")
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Reservation reservation)
+        public async Task<IActionResult> Edit(int id, ReservationViewModel viewModel)
         {
-            if (id != reservation.Id) return NotFound();
+            if (id != viewModel.ReservationId) return NotFound();
 
             if (ModelState.IsValid)
             {
+                var reservation = await reservationRepository.GetByIdAsync(id);
+                if (reservation == null) return NotFound();
+
+                // Atualizar apenas os campos editáveis
+                reservation.CustomerId = viewModel.SelectedCustomerId.Value;
+                reservation.FlightId = viewModel.SelectedFlightId.Value;
+                reservation.SeatId = viewModel.SelectedSeatId.Value;
+                // ReservationCode geralmente não deve ser alterado, mas se quiser permitir:
+                // reservation.ReservationCode = viewModel.ReservationCode;
+
                 await reservationRepository.UpdateAsync(reservation);
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["CustomerId"] = new SelectList(await customerRepository.GetAllAsync(), "Id", "Name", reservation.CustomerId);
-            ViewData["FlightId"] = new SelectList(await flightRepository.GetAllAsync(), "Id", "FlightNumber", reservation.FlightId);
-            ViewData["SeatId"] = new SelectList(await seatRepository.GetAllAsync(), "Id", "SeatNumber", reservation.SeatId);
-            return View(reservation);
+            // Recarregar as listas em caso de erro
+            viewModel.CustomerList = new SelectList(await customerRepository.GetAllAsync(), "Id", "Name");
+            viewModel.AirportList = new SelectList(await airportRepository.GetAllAsync(), "Id", "Name");
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> Delete(int? id)

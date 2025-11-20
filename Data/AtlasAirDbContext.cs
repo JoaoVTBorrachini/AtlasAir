@@ -19,88 +19,73 @@ namespace AtlasAir.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Aircraft>().ToTable("Aircraft");
-            
+
             modelBuilder.Entity<Airport>().ToTable("Airport");
 
             modelBuilder.Entity<Customer>().ToTable("Customer");
-            
-            modelBuilder.Entity<Flight>().ToTable("Flight");
 
+            modelBuilder.Entity<Flight>().ToTable("Flight");
             modelBuilder.Entity<Flight>()
                 .Property(f => f.Status)
                 .HasConversion<string>()
                 .HasDefaultValue(FlightStatus.Scheduled);
-
             modelBuilder.Entity<Flight>()
                 .HasOne(f => f.OriginAirport)
                 .WithMany()
-                .HasForeignKey(b => b.OriginAirportId)
+                .HasForeignKey(f => f.OriginAirportId)
                 .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Flight>()
                 .HasOne(f => f.DestinationAirport)
                 .WithMany()
-                .HasForeignKey(b => b.DestinationAirportId)
+                .HasForeignKey(f => f.DestinationAirportId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<FlightSegment>().ToTable("FlightSegment");
-            
             modelBuilder.Entity<FlightSegment>()
-                .HasOne(i => i.Flight)
-                .WithMany()
-                .HasForeignKey(i => i.FlightId);
-
+                .HasOne(fs => fs.Flight)
+                .WithMany(f => f.FlightSegments)
+                .HasForeignKey(fs => fs.FlightId);
             modelBuilder.Entity<FlightSegment>()
-                .HasOne(i => i.Aircraft)
-                .WithMany()
-                .HasForeignKey(i => i.AircraftId);
-
+                .HasOne(fs => fs.Aircraft)
+                .WithMany(a => a.FlightSegments)
+                .HasForeignKey(fs => fs.AircraftId);
             modelBuilder.Entity<FlightSegment>()
-                .HasOne(i => i.OriginAirport)
+                .HasOne(fs => fs.OriginAirport)
                 .WithMany()
-                .HasForeignKey(i => i.OriginAirportId)
+                .HasForeignKey(fs => fs.OriginAirportId)
                 .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<FlightSegment>()
-                .HasOne(i => i.DestinationAirport)
+                .HasOne(fs => fs.DestinationAirport)
                 .WithMany()
-                .HasForeignKey(i => i.DestinationAirportId)
+                .HasForeignKey(fs => fs.DestinationAirportId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Reservation>().ToTable("Reservation");
-
             modelBuilder.Entity<Reservation>()
                 .Property(r => r.Status)
                 .HasConversion<string>()
                 .HasDefaultValue(ReservationStatus.Pending);
-
             modelBuilder.Entity<Reservation>()
-                .HasOne(b => b.Customer)
+                .HasOne(r => r.Customer)
                 .WithMany()
-                .HasForeignKey(b => b.CustomerId);
-
+                .HasForeignKey(r => r.CustomerId);
             modelBuilder.Entity<Reservation>()
-                .HasOne(b => b.Seat)
-                .WithMany()
-                .HasForeignKey(b => b.SeatId);
-
+                .HasOne(r => r.Seat)
+                .WithMany(s => s.Reservations)
+                .HasForeignKey(r => r.SeatId);
             modelBuilder.Entity<Reservation>()
-                .HasOne(b => b.Flight)
-                .WithMany()
-                .HasForeignKey(b => b.FlightId);
+                .HasOne(r => r.Flight)
+                .WithMany(f => f.Reservations) 
+                .HasForeignKey(r => r.FlightId);
 
             modelBuilder.Entity<Seat>().ToTable("Seat");
-
             modelBuilder.Entity<Seat>()
                 .Property(s => s.Class)
                 .HasConversion<string>();
-
             modelBuilder.Entity<Seat>()
                 .HasOne(s => s.Aircraft)
-                .WithMany()
+                .WithMany(a => a.Seats)
                 .HasForeignKey(s => s.AircraftId);
         }
     }
-
-
 }

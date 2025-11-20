@@ -4,6 +4,7 @@ using AtlasAir.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AtlasAir.Migrations
 {
     [DbContext(typeof(AtlasAirDbContext))]
-    partial class AtlasAirDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251120001034_AircraftFlightSegmentsConfiguration")]
+    partial class AircraftFlightSegmentsConfiguration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -171,6 +174,9 @@ namespace AtlasAir.Migrations
                     b.Property<int>("FlightId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FlightId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("OriginAirportId")
                         .HasColumnType("int");
 
@@ -184,6 +190,8 @@ namespace AtlasAir.Migrations
                     b.HasIndex("DestinationAirportId");
 
                     b.HasIndex("FlightId");
+
+                    b.HasIndex("FlightId1");
 
                     b.HasIndex("OriginAirportId");
 
@@ -210,6 +218,9 @@ namespace AtlasAir.Migrations
                     b.Property<int>("FlightId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("FlightId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("ReservationCode")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -233,6 +244,8 @@ namespace AtlasAir.Migrations
                     b.HasIndex("CustomerId1");
 
                     b.HasIndex("FlightId");
+
+                    b.HasIndex("FlightId1");
 
                     b.HasIndex("SeatId");
 
@@ -299,10 +312,14 @@ namespace AtlasAir.Migrations
                         .IsRequired();
 
                     b.HasOne("AtlasAir.Models.Flight", "Flight")
-                        .WithMany("FlightSegments")
+                        .WithMany()
                         .HasForeignKey("FlightId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AtlasAir.Models.Flight", null)
+                        .WithMany("FlightSegments")
+                        .HasForeignKey("FlightId1");
 
                     b.HasOne("AtlasAir.Models.Airport", "OriginAirport")
                         .WithMany()
@@ -332,10 +349,14 @@ namespace AtlasAir.Migrations
                         .HasForeignKey("CustomerId1");
 
                     b.HasOne("AtlasAir.Models.Flight", "Flight")
-                        .WithMany("Reservations")
+                        .WithMany()
                         .HasForeignKey("FlightId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AtlasAir.Models.Flight", null)
+                        .WithMany("Reservations")
+                        .HasForeignKey("FlightId1");
 
                     b.HasOne("AtlasAir.Models.Seat", "Seat")
                         .WithMany("Reservations")
